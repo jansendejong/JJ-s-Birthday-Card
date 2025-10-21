@@ -5,16 +5,6 @@ Een eenvoudige en visuele Lovelace-kaart voor Home Assistant die aankomende verj
 
 *********************************************************************************************************
 
-<img width="401" height="184" alt="JJ's Birthday Card" src="https://github.com/user-attachments/assets/e4801d7f-9f8b-4a25-967e-aec806d28827" />
-
-<img width="934" height="609" alt="JJ's Birthday Card Config Sort" src="https://github.com/user-attachments/assets/2e4563a8-b704-41a4-975d-c3f4a38a9cff" />
-
-<img width="933" height="614" alt="JJ's Birthday Card Config Color" src="https://github.com/user-attachments/assets/f5401856-253c-42dc-94eb-7acbcfd8fa68" />
-
-<img width="932" height="608" alt="JJ's Birthday Card Config Date" src="https://github.com/user-attachments/assets/255bce36-6abe-430e-9061-5ef91a14faf5" />
-
-*********************************************************************************************************
-
 🎉 Functionaliteiten
 
 ✅ Toon verjaardagen binnen een instelbaar aantal dagen vooruit
@@ -137,6 +127,16 @@ Datum wordt automatisch geconverteerd naar het huidige jaar.
 
 🌐 Vertalingen (ENG/NL/DE)
 
+
+*********************************************************************************************************
+
+<img width="401" height="184" alt="JJ's Birthday Card" src="https://github.com/user-attachments/assets/e4801d7f-9f8b-4a25-967e-aec806d28827" />
+
+<img width="934" height="609" alt="JJ's Birthday Card Config Sort" src="https://github.com/user-attachments/assets/2e4563a8-b704-41a4-975d-c3f4a38a9cff" />
+
+<img width="933" height="614" alt="JJ's Birthday Card Config Color" src="https://github.com/user-attachments/assets/f5401856-253c-42dc-94eb-7acbcfd8fa68" />
+
+<img width="932" height="608" alt="JJ's Birthday Card Config Date" src="https://github.com/user-attachments/assets/255bce36-6abe-430e-9061-5ef91a14faf5" />
 
 *********************************************************************************************************
 
