@@ -20,7 +20,6 @@ Een eenvoudige en visuele Lovelace-kaart voor Home Assistant die aankomende verj
 
 www/jjs-birthday-card/
 ├── jjs-birthday-card.js             # De Lovelace kaart
-├── card-editor.js                   # Visuele editor in de UI
 ├── hacs.json                        # HACS metadata
 ├── README.md                        # Deze handleiding
 └── LICENSE                          # MIT-licentie
@@ -33,19 +32,14 @@ www/jjs-birthday-card/
 1. Maak de map aan:
     /config/www/jjs-birthday-card/
 
-2. Plaats de volgende bestanden in deze map:
+2. Plaats het volgende bestand in deze map:
     js-simple-birthday-card.js
-
-    card-editor.js
 
 3. Voeg deze resources toe in Home Assistant:
     Via UI:
     Instellingen → Dashboards → Bronnen → + Toevoegen
 
     URL: /local/js-simple-birthday-card/js-simple-birthday-card.js
-    Type: JavaScript Module
-
-    URL: /local/js-simple-birthday-card/card-editor.js
     Type: JavaScript Module
 
 4. Herlaad de browser of druk CTRL+F5
