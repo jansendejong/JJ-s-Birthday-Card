@@ -1,0 +1,9 @@
+{
+  "name": "JJ's Birthday Card",
+  "render_readme": true,
+  "filename": "js/jjs-birthday-card.js",
+  "country": "NL",
+  "zip_release": false,
+  "homeassistant": "2023.0.0",
+  "hide_default_branch": true
+}
