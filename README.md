@@ -1,9 +1,19 @@
-J's Simple Birthday Card
+JJ's Birthday Card
 
 Een eenvoudige en visuele Lovelace-kaart voor Home Assistant die aankomende verjaardagen toont. De kaart is ontworpen om snel overzicht te geven van wie er jarig is, inclusief sortering en visuele markering van verjaardagen die vandaag plaatsvinden.
 
 
----
+*********************************************************************************************************
+
+<img width="401" height="184" alt="JJ's Birthday Card" src="https://github.com/user-attachments/assets/e4801d7f-9f8b-4a25-967e-aec806d28827" />
+
+<img width="934" height="609" alt="JJ's Birthday Card Config Sort" src="https://github.com/user-attachments/assets/2e4563a8-b704-41a4-975d-c3f4a38a9cff" />
+
+<img width="933" height="614" alt="JJ's Birthday Card Config Color" src="https://github.com/user-attachments/assets/f5401856-253c-42dc-94eb-7acbcfd8fa68" />
+
+<img width="932" height="608" alt="JJ's Birthday Card Config Date" src="https://github.com/user-attachments/assets/255bce36-6abe-430e-9061-5ef91a14faf5" />
+
+*********************************************************************************************************
 
 🎉 Functionaliteiten
 
@@ -14,55 +24,44 @@ Een eenvoudige en visuele Lovelace-kaart voor Home Assistant die aankomende verj
 ✅ Compatibel met HACS (bij handmatige installatie als custom repository)
 
 
----
+*********************************************************************************************************
 
 📁 Bestandenstructuur
 
-www/js-simple-birthday-card/
-├── js-simple-birthday-card.js       # De Lovelace kaart
+www/jjs-birthday-card/
+├── jjs-birthday-card.js             # De Lovelace kaart
 ├── card-editor.js                   # Visuele editor in de UI
-├── hacs.json                        # HACS metadata (indien gebruikt)
+├── hacs.json                        # HACS metadata
 ├── README.md                        # Deze handleiding
-└── LICENSE                          # MIT-licentie (optioneel)
+└── LICENSE                          # MIT-licentie
 
 
----
+*********************************************************************************************************
 
 ⚙️ Installatie (Handmatig)
 
 1. Maak de map aan:
-/config/www/js-simple-birthday-card/
-
+    /config/www/jjs-birthday-card/
 
 2. Plaats de volgende bestanden in deze map:
+    js-simple-birthday-card.js
 
-js-simple-birthday-card.js
-
-card-editor.js
-
-
+    card-editor.js
 
 3. Voeg deze resources toe in Home Assistant:
+    Via UI:
+    Instellingen → Dashboards → Bronnen → + Toevoegen
 
-Via UI:
-Instellingen → Dashboards → Bronnen → + Toevoegen
+    URL: /local/js-simple-birthday-card/js-simple-birthday-card.js
+    Type: JavaScript Module
 
-URL: /local/js-simple-birthday-card/js-simple-birthday-card.js
-
-Type: JavaScript Module
-
-URL: /local/js-simple-birthday-card/card-editor.js
-
-Type: JavaScript Module
-
-
+    URL: /local/js-simple-birthday-card/card-editor.js
+    Type: JavaScript Module
 
 4. Herlaad de browser of druk CTRL+F5
 
 
-
-
----
+*********************************************************************************************************
 
 💻 Gebruik in Lovelace
 
@@ -74,37 +73,35 @@ birthdays:
     date: "1985-10-20"
   - name: Lisa
     date: "1992-12-05"
-days_ahead: 10
+days_ahead: 7
 sort_by: date  # of 'name'
+
+
+-------------------------------------------------------------------------------------------------------
 
 Via UI (Visual Editor):
 
 1. Ga naar je dashboard
 
-
-2. Klik Bewerken → + Kaart toevoegen → Custom: J's Simple Birthday Card
-
+2. Klik [Dashboard Bewerken] → [Kaart toevoegen] → Custom: JJ's Birthday Card
 
 3. Voeg verjaardagen toe, kies sortering en het aantal dagen vooruit
 
 
-
-
----
+*********************************************************************************************************
 
 ⚙️ Configuratie-opties
 
-Optie	Type	Beschrijving	Voorbeeld
+Optie	      Type	    Beschrijving	                            Voorbeeld
 
-birthdays	list	Lijst met personen + hun geboortedatum	[{name, date}]
-name	string	Naam van de jarige	"Lisa"
-date	string	Geboortedatum (YYYY-MM-DD)	"1990-12-05"
-days_ahead	number	Aantal dagen vooruit zichtbaar	7
-sort_by	string	Sorteer op name of date	"name"
+birthday	  list	    Lijst met personen + hun geboortedatum	  [{name, date}]
+name	      string	  Naam van de jarige	                      "Lisa"
+date	      string	  Geboortedatum                             (DD-MM-YYYY)	"06-12-1989"
+days_ahead	number	  Aantal dagen vooruit zichtbaar	          7
+sort_by	    string	  Sorteer op name of date	                  "name"
 
 
-
----
+*********************************************************************************************************
 
 🎨 Functionaliteit: Verjaardagen van Vandaag
 
@@ -113,8 +110,7 @@ Verjaardagen die vandaag zijn krijgen een opvallende gele achtergrond en staan a
 Datum wordt automatisch geconverteerd naar het huidige jaar.
 
 
-
----
+*********************************************************************************************************
 
 🚀 Installatie via HACS (Custom Repository)
 
@@ -133,34 +129,27 @@ Datum wordt automatisch geconverteerd naar het huidige jaar.
 5. Installeer → Herlaad frontend
 
 
-
-
----
+*********************************************************************************************************
 
 ✅ Toekomstige functies (optioneel)
 
 🎁 Automatische herinneringen via notificatie
 
-🗓️ Koppeling met person of calendar entities
-
 🌐 Vertalingen (ENG/NL/DE)
 
-📅 ICS/Google Calendar integratie
 
-
-
----
+*********************************************************************************************************
 
 📄 Licentie
 
 Dit project maakt gebruik van de MIT-licentie. Je mag het vrij gebruiken, aanpassen en verspreiden.
 
 
----
+*********************************************************************************************************
 
 ❤️ Credits & Contact
 
-Gemaakt door: J
+Gemaakt door: J. de Jong
 Feedback of ideeën? Open een issue of pull request via GitHub.
 
 Veel plezier met je kaart! 🎂
