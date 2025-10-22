@@ -33,16 +33,34 @@ www/jjs-birthday-card/
     /config/www/jjs-birthday-card/
 
 2. Plaats het volgende bestand in deze map:
-    js-simple-birthday-card.js
+    jjs-birthday-card.js
 
 3. Voeg deze resources toe in Home Assistant:
     Via UI:
     Instellingen → Dashboards → Bronnen → + Toevoegen
 
-    URL: /local/js-simple-birthday-card/js-simple-birthday-card.js
+    URL: /local/jjs-birthday-card/jjs-birthday-card.js
     Type: JavaScript Module
 
 4. Herlaad de browser of druk CTRL+F5
+
+
+*********************************************************************************************************
+
+🚀 Installatie via HACS (Custom Repository)
+
+1. Open HACS → Repositories
+
+
+2. Klik rechtsboven op +
+
+
+3. Voeg de GitHub link toe
+[https://github.com/jansendejong/jjs-birthday-card]
+
+
+4. Installeer → Herlaad frontend
+
 
 
 *********************************************************************************************************
@@ -51,7 +69,7 @@ www/jjs-birthday-card/
 
 Via YAML:
 
-type: custom:js-simple-birthday-card
+type: custom:jjs-birthday-card
 birthdays:
   - name: Jan
     date: "1985-10-20"
@@ -94,32 +112,14 @@ Verjaardagen die vandaag zijn krijgen een opvallende gele achtergrond en staan a
 Datum wordt automatisch geconverteerd naar het huidige jaar.
 
 
-*********************************************************************************************************
-
-🚀 Installatie via HACS (Custom Repository)
-
-1. Open HACS → Repositories
-
-
-2. Klik rechtsboven op +
-
-
-3. Voeg de GitHub link toe (bijv. https://github.com/jouw-gebruikersnaam/js-simple-birthday-card)
-
-
-4. Kies categorie Lovelace
-
-
-5. Installeer → Herlaad frontend
-
 
 *********************************************************************************************************
 
-✅ Toekomstige functies (optioneel)
+✅ Toekomstige functies:
 
 🎁 Automatische herinneringen via notificatie
 
-🌐 Vertalingen (ENG/NL/DE)
+🌐 Multi-language (ENG/NL/DE)
 
 
 *********************************************************************************************************
@@ -143,7 +143,7 @@ Dit project maakt gebruik van de MIT-licentie. Je mag het vrij gebruiken, aanpas
 
 ❤️ Credits & Contact
 
-Gemaakt door: J. de Jong
+Gemaakt door: J. de Jong (J.J.)
 Feedback of ideeën? Open een issue of pull request via GitHub.
 
 Veel plezier met je kaart! 🎂
