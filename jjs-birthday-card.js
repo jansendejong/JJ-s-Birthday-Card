@@ -1,5 +1,7 @@
 // jjs-birthday-card.js
 
+// v2.0.1
+
 // ------------- IMPORTS -------------
 import { LitElement, html, css } 
   from "https://unpkg.com/lit-element@3.0.0/lit-element.js?module";
@@ -25,8 +27,11 @@ class JJsBirthdayCard extends LitElement {
         box-shadow: var(--ha-card-box-shadow, 0 2px 4px rgba(0,0,0,0.1));
       }
       .birthday {
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
+        padding: 4px;
+        border-radius: 12px;
+        box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3);
+        margin-bottom: 4px;
+        border: none; 
       }
       .today {
         background-color: #ffe082;
@@ -54,8 +59,12 @@ class JJsBirthdayCard extends LitElement {
     if (!config.birthdays) {
       throw new Error('You need to define birthdays');
     }
-    this.config = config;
+    this.config = {
+      show_header: config.show_header !== false, // default: true
+      ...config,
+    };
   }
+  
 
   render() {
     if (!this.config.birthdays?.length) {
@@ -66,6 +75,55 @@ class JJsBirthdayCard extends LitElement {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    const lang = this.hass?.language || 'en';
+
+    const translations = {
+      en: {
+        header: (days) => `Birthdays in the next ${days} days`,
+        noBirthdays: "No birthdays added",
+        noneUpcoming: "No upcoming birthdays",
+        today: "today",
+        tomorrow: "tomorrow",
+        year: "years"
+      },
+      nl: {
+        header: (days) => `Verjaardagen komende ${days} dagen`,
+        noBirthdays: "Geen verjaardagen toegevoegd",
+        noneUpcoming: "Geen verjaardagen",
+        today: "vandaag",
+        tomorrow: "morgen",
+        year: "jaar"
+      },
+      de: {
+        header: (days) => `Geburtstage in den nächsten ${days} Tagen`,
+        noBirthdays: "Keine Geburtstage hinzugefügt",
+        noneUpcoming: "Keine bevorstehenden Geburtstage",
+        today: "heute",
+        tomorrow: "morgen",
+        year: "Jahre"    
+      },
+      fr: {
+        header: (days) => `Anniversaires dans les ${days} prochains jours`,
+        noBirthdays: "Aucun anniversaire ajouté",
+        noneUpcoming: "Aucun anniversaire à venir",
+        today: "aujourd'hui",
+        tomorrow: "demain",
+        year: "ans"    
+      },
+      es: {
+        header: (days) => `Cumpleaños en los próximos ${days} días`,
+        noBirthdays: "No se han añadido cumpleaños",
+        noneUpcoming: "No hay cumpleaños próximos",
+        today: "hoy",
+        tomorrow: "mañana",
+        year: "años"   
+      }
+    };
+    
+    // ✅ Automatische fallback als taal niet bestaat
+    const t = translations[lang] || translations["en"];
+    
 
     const upcoming = this.config.birthdays
       .map(b => {
@@ -85,11 +143,15 @@ class JJsBirthdayCard extends LitElement {
 
     return html`
       <ha-card class="card">
+      ${this.config.show_header !== false ? html`
         <div class="header">
-          Verjaardagen komende ${this.config.days_ahead} dagen
+          ${this.config.custom_header && this.config.custom_header.trim() !== ""
+            ? this.config.custom_header
+            : t.header(this.config.days_ahead)}
         </div>
+      ` : ''}         
         ${upcoming.length === 0
-          ? html`<div class="birthday">Geen verjaardagen</div>`
+          ? html`<div class="birthday">${t.noneUpcoming}</div>`
           : upcoming.map((b, index) => {
               const isToday =
                 b.date.getDate() === today.getDate() &&
@@ -108,13 +170,13 @@ class JJsBirthdayCard extends LitElement {
               const icon = icons[index % icons.length];
 
               const dateText = isToday
-                ? "vandaag"
-                : isTomorrow
-                ? "morgen"
-                : b.date.toLocaleDateString("nl-NL", {
-                    day: "2-digit",
-                    month: "long",
-                  });
+              ? t.today
+              : isTomorrow
+              ? t.tomorrow
+              : b.date.toLocaleDateString(lang, { 
+                  day: "2-digit", 
+                  month: "long" 
+                });
 
               const bgColor = this.config.today_color || "#ffe082";
               const getTextColor = (hex) => {
@@ -135,7 +197,7 @@ class JJsBirthdayCard extends LitElement {
                   <span>
                     ${b.name}&nbsp;${icon}
                     <span class="age" style="color:${isToday ? textColor : 'lightgrey'}">
-                      (${age} jaar)
+                      (${age} ${lang === 'nl' ? 'jaar' : t.year})
                     </span>
                   </span>
                   <span>${dateText}</span>
@@ -169,7 +231,7 @@ customElements.define("jjs-birthday-card", JJsBirthdayCard);
 
 
 // ===================================
-//   EDITOR COMPONENT (ORIGINEEL)
+//   EDITOR COMPONENT
 // ===================================
 const makeEmptyBirthday = () => ({ name: "", date: "" });
 
@@ -254,6 +316,57 @@ class JJsBirthdayCardEditor extends LitElement {
         color: var(--error-color, #b00020);
         margin-top: 8px;
       }
+      .toggle-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 42px;
+        height: 22px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.3s;
+        border-radius: 22px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        transition: 0.3s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: var(--primary-color, #03a9f4);
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(20px);
+      }
     `;
   }
 
@@ -274,6 +387,11 @@ class JJsBirthdayCardEditor extends LitElement {
     if (cfg.days_ahead > 365) cfg.days_ahead = 365;
 
     cfg.sort_by = cfg.sort_by || "date";
+
+    cfg.show_header = cfg.show_header !== false;
+
+    cfg.custom_header = cfg.custom_header || "";
+
     this._config = cfg;
   }
 
@@ -321,19 +439,138 @@ class JJsBirthdayCardEditor extends LitElement {
   render() {
     const cfg = this._config || { birthdays: [], days_ahead: 7, sort_by: "date" };
 
+    const lang = this.hass?.language || 'en';
+
+    const translationsEditor = {
+      en: {
+        sortBy: "Sort by",
+        daysAhead: "Days ahead",
+        todayColor: "Today color",
+        birthdays: "Birthdays",
+        addNew: "Add new",
+        noBirthdays: "No birthdays added",
+        showHeader: "Show header",
+        customHeader: "Custom header (optional)",
+        headerPlaceholder: "E.g.: Birthdays this week",
+        name: "Name",
+        date: "Date",
+        delete: "Delete",
+        sortDate: "Date",
+        sortName: "Name"
+      },
+      nl: {
+        sortBy: "Sorteren op",
+        daysAhead: "Aantal dagen vooruit",
+        todayColor: "Kleur voor verjaardag vandaag",
+        birthdays: "Verjaardagen",
+        addNew: "Nieuw toevoegen",
+        noBirthdays: "Nog geen verjaardagen toegevoegd",
+        showHeader: "Toon header",
+        customHeader: "Eigen header tekst (optioneel)",
+        headerPlaceholder: "Bijv: Verjaardagen deze week",
+        name: "Naam",
+        date: "Datum",
+        delete: "Verwijderen", 
+        sortDate: "Datum", 
+        sortName: "Naam"
+      },
+      fr: {
+        sortBy: "Trier par",
+        daysAhead: "Jours à l'avance",
+        todayColor: "Couleur pour aujourd'hui",
+        birthdays: "Anniversaires",
+        addNew: "Ajouter",
+        noBirthdays: "Aucun anniversaire ajouté",
+        showHeader: "Afficher l'en-tête",
+        customHeader: "Texte d'en-tête personnalisé (optionnel)",
+        headerPlaceholder: "Ex: Anniversaires cette semaine",
+        name: "Nom",
+        date: "Date",
+        delete: "Supprimer",
+        sortDate: "Date", 
+        sortName: "Nom"
+      },
+      es: {
+        sortBy: "Ordenar por",
+        daysAhead: "Días por adelantado",
+        todayColor: "Color para hoy",
+        birthdays: "Cumpleaños",
+        addNew: "Añadir nuevo",
+        noBirthdays: "No se han añadido cumpleaños",
+        showHeader: "Mostrar encabezado",
+        customHeader: "Texto de encabezado personalizado (opcional)",
+        headerPlaceholder: "Ej: Cumpleaños esta semana",
+        name: "Nombre",
+        date: "Fecha",
+        delete: "Eliminar",
+        sortDate: "Fecha", 
+        sortName: "Nombre"
+      },
+      de: {
+        sortBy: "Sortieren nach",
+        daysAhead: "Tage im Voraus",
+        todayColor: "Farbe für heute",
+        birthdays: "Geburtstage",
+        addNew: "Neu hinzufügen",
+        noBirthdays: "Noch keine Geburtstage hinzugefügt",
+        showHeader: "Header anzeigen",
+        customHeader: "Eigener Header-Text (optional)",
+        headerPlaceholder: "z.B.: Geburtstage dieser Woche",
+        name: "Name",
+        date: "Datum",
+        delete: "Löschen",
+        sortDate: "Datum", 
+        sortName: "Name"
+      }
+    };
+    
+    const t_editor = translationsEditor[lang] || translationsEditor['en'];
+    
     return html`
       <div>
+      
+        <div class="toggle-wrapper">
+          <label>${t_editor.showHeader}</label>
+          <label class="switch">
+            <input 
+              type="checkbox" 
+              .checked=${cfg.show_header !== false}
+              @change=${e => {
+                this._config.show_header = e.target.checked;
+                this._fireConfigChanged();
+              }} 
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+      ${cfg.show_header !== false ? html`
+        <div style="margin: 8px 0;">
+          <label>${t_editor.customHeader}</label>
+          <input 
+            type="text" 
+            placeholder=${t_editor.headerPlaceholder} 
+            .value=${cfg.custom_header || ""} 
+            @input=${e => {
+              this._config.custom_header = e.target.value;
+              this._fireConfigChanged();
+            }}
+          />
+        </div>
+      ` : ''}
+
         <div class="row">
           <div style="flex:1">
-            <label>Sorteren op</label>
+            <label>${t_editor.sortBy}</label>
             <select .value=${cfg.sort_by} @change=${e => this._updateSimpleField('sort_by', e)}>
-              <option value="date">Datum</option>
-              <option value="name">Naam</option>
+              <option value="date">${t_editor.sortDate}</option>
+              <option value="name">${t_editor.sortName}</option>
             </select>
+
           </div>
 
           <div style="width:160px">
-            <label>Aantal dagen vooruit</label>
+            <label>${t_editor.daysAhead}</label>
             <input 
               type="number" 
               min="1" 
@@ -344,7 +581,7 @@ class JJsBirthdayCardEditor extends LitElement {
           </div>
 
           <div style="flex:1">
-            <label>Kleur voor verjaardag vandaag</label>
+            <label>${t_editor.todayColor}</label>
             <input type="color" 
                   .value=${cfg.today_color || '#ffe082'} 
                   @change=${e => this._updateSimpleField('today_color', e)} />
@@ -353,21 +590,38 @@ class JJsBirthdayCardEditor extends LitElement {
 
         <div class="list">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <div style="font-weight:600">Verjaardagen</div>
+            <div style="font-weight:600">${t_editor.birthdays}</div>
             <div class="controls">
-              <button class="icon" title="Nieuw toevoegen" @click=${this._addBirthday}>+</button>
+              <button class="icon" title=${t_editor.addNew} @click=${this._addBirthday}>+</button>
             </div>
           </div>
 
           ${cfg.birthdays.length === 0 
-            ? html`<div style="color:var(--secondary-text-color,#666)">Nog geen verjaardagen toegevoegd</div>` 
+            ? html`<div style="color:var(--secondary-text-color,#666)">${t_editor.noBirthdays}</div>` 
             : ''}
 
           ${cfg.birthdays.map((b, idx) => html`
             <div class="item">
-              <input type="text" .value=${b.name} @change=${e => this._updateBirthday(idx, 'name', e)} placeholder="Naam" />
-              <input type="date" .value=${b.date} @change=${e => this._updateBirthday(idx, 'date', e)} />
-              <button class="icon delete" title="Verwijderen" @click=${() => this._removeBirthday(idx)}>×</button>
+              <input 
+                type="text" 
+                .value=${b.name} 
+                @change=${e => this._updateBirthday(idx, 'name', e)} 
+                placeholder=${t_editor.name} 
+              />
+
+              <input 
+                type="date" 
+                .value=${b.date} 
+                @change=${e => this._updateBirthday(idx, 'date', e)} 
+                aria-label=${t_editor.date}
+              />
+
+              <button 
+                class="icon delete" 
+                title=${t_editor.delete} 
+                @click=${() => this._removeBirthday(idx)}
+              >×</button>
+
             </div>
           `)}
         </div>
@@ -388,5 +642,5 @@ window.customCards.push({
   type: "jjs-birthday-card",
   name: "JJ's Birthday Card",
   preview: true,
-  description: "Een eenvoudige verjaardagskaart voor Home Assistant",
+  description: "A simple birthday card for Home Assistant",
 });
