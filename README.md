@@ -19,26 +19,32 @@ The visual editor makes it easy to customize the card to your liking.
 
 📁 **Bestandenstructuur**  
 
+```text
 www/jjs-birthday-card/   
 ├── jjs-birthday-card.js          
 ├── hacs.json                         
 ├── README.md                       
-└── LICENSE                          
+└── LICENSE
+```                      
 
 *********************************************************************************************************  
   
 ⚙️ **Manual Installation**  
   
-1. Create the folder:  
-     '/config/www/jjs-birthday-card/'  
+1. Create the folder:
+```text
+     /config/www/jjs-birthday-card/
+```
 3. Place the following file inside this folder:  
 jjs-birthday-card.js  
 4. Add this resource to Home Assistant:  
    Via UI:  
-   Settings → Dashboards → Resources → + Add  
-     'URL: /local/jjs-birthday-card/jjs-birthday-card.js'  
-     'Type: JavaScript Module'  
-5. Reload the browser or press CTRL+F5  
+   Settings → Dashboards → Resources → + Add
+```text 
+     URL: /local/jjs-birthday-card/jjs-birthday-card.js  
+      Type: JavaScript Module
+```
+6. Reload the browser or press CTRL+F5  
    
 *********************************************************************************************************  
   
@@ -46,7 +52,9 @@ jjs-birthday-card.js
 1. Open HACS → Repositories  
 2. Click the + button in the top-right  
 3. Add the GitHub link:  
-   https://github.com/jansendejong/jjs-birthday-card  
+```text
+   https://github.com/jansendejong/jjs-birthday-card
+```
 4. Install → Reload the frontend  
 
 *********************************************************************************************************  
@@ -62,7 +70,8 @@ birthdays:
   - name: Lisa
     date: "1992-12-05"
 days_ahead: 7
-sort_by: date  # or 'name' ```
+sort_by: date  # or 'name'
+```
 
 -------------------------------------------------------------------------------------------------------
 
@@ -75,6 +84,7 @@ sort_by: date  # or 'name' ```
 
 ⚙️ **Configuration Options**  
 
+```text
 | Option        | Type   | Description                           | Example               |
 | ------------- | ------ | ------------------------------------- | --------------------- |
 | show_header   | toggle | Show or hide the header               | on / off              |
@@ -85,6 +95,7 @@ sort_by: date  # or 'name' ```
 | birthdays     | list   | List of people and their birthdates   | [{name, date}]        |
 | name          | string | Name of the person                    | "Lisa"                |
 | date          | string | Date of birth (YYYY-MM-DD)            | "1989-12-06"          |
+```
 
 *********************************************************************************************************
 
