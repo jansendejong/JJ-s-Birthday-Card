@@ -90,7 +90,8 @@ sort_by: date  # or 'name'
 
 🖼️ **Screenshots**
 
-![jjs-birthday-card multilanguage](https://github.com/user-attachments/assets/c40ce6f8-c4eb-42b1-8108-3d4df190ab4c)  ![jjs-birthday-card-editor multilanguage](https://github.com/user-attachments/assets/d8bdd308-0273-44c4-bd6b-e4b75b1e95fd)
+![jjs-birthday-card multilanguage](https://github.com/user-attachments/assets/c40ce6f8-c4eb-42b1-8108-3d4df190ab4c)
+![jjs-birthday-card-editor multilanguage](https://github.com/user-attachments/assets/d8bdd308-0273-44c4-bd6b-e4b75b1e95fd)
 
 
 
