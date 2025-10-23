@@ -1,58 +1,58 @@
-**JJ's Birthday Card**
+**JJ's Birthday Card**  
 
-A simple and user-friendly Lovelace card for Home Assistant that displays upcoming birthdays. The card is designed to give you a quick overview of who has a birthday soon.
-The visual editor makes it easy to customize the card to your liking.
-
-*********************************************************************************************************
-
-🎉 **Features**
-
-✅ Both the card and the editor support English, Dutch, German, French and Spanish (automatically adjusts to the user’s language – default is English)
-✅ Use the default header, create your own custom header, or hide the header entirely
-✅ Display birthdays within a configurable number of upcoming days
-✅ Sort by name or date
-✅ Choose your own highlight color for people who have their birthday today
-✅ Fully configurable via the Lovelace UI editor (visual editor)
-✅ Compatible with HACS (when added manually as a custom repository)
+A simple and user-friendly Lovelace card for Home Assistant that displays upcoming birthdays. The card is designed to give you a quick overview of who has a birthday soon.  
+The visual editor makes it easy to customize the card to your liking.  
 
 *********************************************************************************************************
 
-📁 **Bestandenstructuur**
+🎉 **Features**  
 
-www/jjs-birthday-card/
-├── jjs-birthday-card.js        
-├── hacs.json                       
-├── README.md                      
+✅ Both the card and the editor support English, Dutch, German, French and Spanish (automatically adjusts to the user’s language – default is English)  
+✅ Use the default header, create your own custom header, or hide the header entirely  
+✅ Display birthdays within a configurable number of upcoming days  
+✅ Sort by name or date  
+✅ Choose your own highlight color for people who have their birthday today  
+✅ Fully configurable via the Lovelace UI editor (visual editor)  
+✅ Compatible with HACS (when added manually as a custom repository)  
+
+*********************************************************************************************************
+
+📁 **Bestandenstructuur**  
+
+www/jjs-birthday-card/   
+├── jjs-birthday-card.js          
+├── hacs.json                         
+├── README.md                       
 └── LICENSE                          
 
-*********************************************************************************************************
+*********************************************************************************************************  
+  
+⚙️ **Manual Installation**  
+  
+1. Create the folder:  
+     '/config/www/jjs-birthday-card/'  
+3. Place the following file inside this folder:  
+jjs-birthday-card.js  
+4. Add this resource to Home Assistant:  
+   Via UI:  
+   Settings → Dashboards → Resources → + Add  
+     'URL: /local/jjs-birthday-card/jjs-birthday-card.js'  
+     'Type: JavaScript Module'  
+5. Reload the browser or press CTRL+F5  
+   
+*********************************************************************************************************  
+  
+🚀 **Installation via HACS (Custom Repository)**  
+1. Open HACS → Repositories  
+2. Click the + button in the top-right  
+3. Add the GitHub link:  
+   https://github.com/jansendejong/jjs-birthday-card  
+4. Install → Reload the frontend  
 
-⚙️ **Manual Installation**
+*********************************************************************************************************  
 
-1. Create the folder:
-     '/config/www/jjs-birthday-card/'
-3. Place the following file inside this folder:
-jjs-birthday-card.js
-4. Add this resource to Home Assistant:
-   Via UI:
-   Settings → Dashboards → Resources → + Add
-     'URL: /local/jjs-birthday-card/jjs-birthday-card.js'
-     'Type: JavaScript Module'
-5. Reload the browser or press CTRL+F5
-
-*********************************************************************************************************
-
-🚀 **Installation via HACS (Custom Repository)**
-1. Open HACS → Repositories
-2. Click the + button in the top-right
-3. Add the GitHub link:
-   https://github.com/jansendejong/jjs-birthday-card
-4. Install → Reload the frontend
-
-*********************************************************************************************************
-
-💻 **Gebruik in Lovelace**
-***Via YAML:***
+💻 **Gebruik in Lovelace**  
+***Via YAML:***  
 
 ```yaml
 type: custom:jjs-birthday-card
@@ -62,18 +62,18 @@ birthdays:
   - name: Lisa
     date: "1992-12-05"
 days_ahead: 7
-sort_by: date  # or 'name'
+sort_by: date  # or 'name' ```
 
 -------------------------------------------------------------------------------------------------------
 
-***Via UI (Visual Editor):***
+***Via UI (Visual Editor):***  
 1. Open your dashboard
 2. Click Edit Dashboard → Add Card → Custom: JJ's Birthday Card
 3. Add birthdays, choose sorting and set the number of days ahead
 
 *********************************************************************************************************
 
-⚙️ **Configuration Options**
+⚙️ **Configuration Options**  
 
 | Option        | Type   | Description                           | Example               |
 | ------------- | ------ | ------------------------------------- | --------------------- |
@@ -88,7 +88,7 @@ sort_by: date  # or 'name'
 
 *********************************************************************************************************
 
-🖼️ **Screenshots**
+🖼️ **Screenshots**  
 
 ![jjs-birthday-card multilanguage](https://github.com/user-attachments/assets/fce82d13-a16b-401c-bee4-add6ca19b765)
 
@@ -96,14 +96,14 @@ sort_by: date  # or 'name'
 
 *********************************************************************************************************
 
-📄 **License**
+📄 **License**  
 
 This project is licensed under the MIT License.
 You are free to use, modify, and distribute it.
 
 *********************************************************************************************************
 
-❤️ **Credits & Contact**
+❤️ **Credits & Contact**  
 
 Created by: J. de Jong (J.J.)
 Feedback or ideas? Feel free to open an issue or pull request on GitHub.
