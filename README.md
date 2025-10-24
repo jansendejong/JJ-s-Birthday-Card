@@ -36,7 +36,7 @@ www/jjs-birthday-card/
      /config/www/jjs-birthday-card/
 ```
 3. Place the following file inside this folder:  
-jjs-birthday-card.js  
+     jjs-birthday-card.js  
 4. Add this resource to Home Assistant:  
    Via UI:  
    Settings → Dashboards → Resources → + Add
@@ -48,14 +48,11 @@ jjs-birthday-card.js
    
 *********************************************************************************************************  
   
-🚀 **Installation via HACS (Custom Repository)**  
-1. Open HACS → Repositories  
-2. Click the + button in the top-right  
-3. Add the GitHub link:  
-```text
-   https://github.com/jansendejong/jjs-birthday-card
-```
-4. Install → Reload the frontend  
+🚀 **Installation via HACS**  
+1. Open HACS 
+3. Search for 'JJs Birthday Card
+3. Install 
+4. Reload the frontend  
 
 *********************************************************************************************************  
 
@@ -120,3 +117,5 @@ Created by: J. de Jong (J.J.)
 Feedback or ideas? Feel free to open an issue or pull request on GitHub.
 
 Enjoy the card! 🎂
+
+<a href="https://www.buymeacoffee.com/jdejong" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
