@@ -60,86 +60,64 @@ class JJsBirthdayCard extends LitElement {
       throw new Error('You need to define birthdays');
     }
     this.config = {
-      show_header: config.show_header !== false, // default: true
+      show_header: config.show_header !== false,
+      hide_if_empty: config.hide_if_empty === true, // ✅ hier toegevoegd
       ...config,
     };
   }
   
+  
 
   render() {
-    if (!this.config.birthdays?.length) {
-      return html`<ha-card class="card">
-        <div class="header">Geen verjaardagen toegevoegd</div>
-      </ha-card>`;
-    }
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
     const lang = this.hass?.language || 'en';
-
+  
     const translations = {
-      en: {
-        header: (days) => `Birthdays in the next ${days} days`,
-        noBirthdays: "No birthdays added",
-        noneUpcoming: "No upcoming birthdays",
-        today: "today",
-        tomorrow: "tomorrow",
-        year: "years"
-      },
-      nl: {
-        header: (days) => `Verjaardagen komende ${days} dagen`,
-        noBirthdays: "Geen verjaardagen toegevoegd",
-        noneUpcoming: "Geen verjaardagen",
-        today: "vandaag",
-        tomorrow: "morgen",
-        year: "jaar"
-      },
-      de: {
-        header: (days) => `Geburtstage in den nächsten ${days} Tagen`,
-        noBirthdays: "Keine Geburtstage hinzugefügt",
-        noneUpcoming: "Keine bevorstehenden Geburtstage",
-        today: "heute",
-        tomorrow: "morgen",
-        year: "Jahre"    
-      },
-      fr: {
-        header: (days) => `Anniversaires dans les ${days} prochains jours`,
-        noBirthdays: "Aucun anniversaire ajouté",
-        noneUpcoming: "Aucun anniversaire à venir",
-        today: "aujourd'hui",
-        tomorrow: "demain",
-        year: "ans"    
-      },
-      es: {
-        header: (days) => `Cumpleaños en los próximos ${days} días`,
-        noBirthdays: "No se han añadido cumpleaños",
-        noneUpcoming: "No hay cumpleaños próximos",
-        today: "hoy",
-        tomorrow: "mañana",
-        year: "años"   
-      }
+      en: { header: (d)=>`Birthdays in the next ${d} days`, noBirthdays:"No birthdays added", noneUpcoming:"No upcoming birthdays", today:"today", tomorrow:"tomorrow", year:"years" },
+      nl: { header: (d)=>`Verjaardagen komende ${d} dagen`, noBirthdays:"Geen verjaardagen toegevoegd", noneUpcoming:"Geen verjaardagen", today:"vandaag", tomorrow:"morgen", year:"jaar" },
+      de: { header: (d)=>`Geburtstage in den nächsten ${d} Tagen`, noBirthdays:"Keine Geburtstage hinzugefügt", noneUpcoming:"Keine bevorstehenden Geburtstage", today:"heute", tomorrow:"morgen", year:"Jahre" },
+      fr: { header: (d)=>`Anniversaires dans les ${d} prochains jours`, noBirthdays:"Aucun anniversaire ajouté", noneUpcoming:"Aucun anniversaire à venir", today:"aujourd'hui", tomorrow:"demain", year:"ans" },
+      es: { header: (d)=>`Cumpleaños en los próximos ${d} días`, noBirthdays:"No se han añadido cumpleaños", noneUpcoming:"No hay cumpleaños próximos", today:"hoy", tomorrow:"mañana", year:"años" }
     };
-    
-    // ✅ Automatische fallback als taal niet bestaat
     const t = translations[lang] || translations["en"];
-    
-
+  
+    const today = new Date();
+    today.setHours(0,0,0,0);
+  
+    // ✅ 1. Geen verjaardagen in config?
+    if (!this.config.birthdays?.length) {
+      if (this.config.hide_if_empty) return html``; // Hele kaart verbergen
+      return html`
+        <ha-card class="card">
+          <div class="header">${t.noBirthdays}</div>
+        </ha-card>
+      `;
+    }
+  
+    // ✅ 2. Bereken "upcoming"
     const upcoming = this.config.birthdays
       .map(b => {
         const orig = new Date(b.date);
-        let nextBirthday = new Date(today.getFullYear(), orig.getMonth(), orig.getDate());
-        if (nextBirthday < today) nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
-        return { ...b, date: nextBirthday, originalDate: orig };
+        let next = new Date(today.getFullYear(), orig.getMonth(), orig.getDate());
+        if (next < today) next.setFullYear(next.getFullYear() + 1);
+        return { ...b, date: next, originalDate: orig };
       })
       .filter(b => {
-        const diffDays = (b.date - today) / (1000 * 60 * 60 * 24);
-        return diffDays >= 0 && diffDays <= this.config.days_ahead;
+        const diff = (b.date - today) / (1000 * 60 * 60 * 24);
+        return diff >= 0 && diff <= this.config.days_ahead;
       })
-      .sort((a, b) => {
-        if (this.config.sort_by === "name") return a.name.localeCompare(b.name);
-        return a.date - b.date;
-      });
+      .sort((a,b) => this.config.sort_by === "name" ? a.name.localeCompare(b.name) : a.date - b.date);
+  
+    // ✅ 3. Als upcoming leeg is → verberg of toon melding
+    if (upcoming.length === 0) {
+      if (this.config.hide_if_empty) return html``; // Hele kaart verbergen
+      return html`
+        <ha-card class="card">
+          <div class="header">${t.header(this.config.days_ahead)}</div>
+          <div class="birthday">${t.noneUpcoming}</div>
+        </ha-card>
+      `;
+    }
+  
 
     return html`
       <ha-card class="card">
@@ -150,8 +128,12 @@ class JJsBirthdayCard extends LitElement {
             : t.header(this.config.days_ahead)}
         </div>
       ` : ''}         
-        ${upcoming.length === 0
-          ? html`<div class="birthday">${t.noneUpcoming}</div>`
+      ${upcoming.length === 0
+        ? (
+            this.config.hide_if_empty
+              ? html``  // ✅ Hele kaart verbergen
+              : html`<div class="birthday">${t.noneUpcoming}</div>`
+          )      
           : upcoming.map((b, index) => {
               const isToday =
                 b.date.getDate() === today.getDate() &&
@@ -392,6 +374,8 @@ class JJsBirthdayCardEditor extends LitElement {
 
     cfg.custom_header = cfg.custom_header || "";
 
+    cfg.hide_if_empty = config.hide_if_empty === true;
+
     this._config = cfg;
   }
 
@@ -456,7 +440,8 @@ class JJsBirthdayCardEditor extends LitElement {
         date: "Date",
         delete: "Delete",
         sortDate: "Date",
-        sortName: "Name"
+        sortName: "Name", 
+        hide_if_empty: "Hide card when there are no upcoming birthdays"
       },
       nl: {
         sortBy: "Sorteren op",
@@ -472,7 +457,8 @@ class JJsBirthdayCardEditor extends LitElement {
         date: "Datum",
         delete: "Verwijderen", 
         sortDate: "Datum", 
-        sortName: "Naam"
+        sortName: "Naam",
+        hide_if_empty: "Verberg kaart als er geen aankomende verjaardagen zijn"
       },
       fr: {
         sortBy: "Trier par",
@@ -488,7 +474,8 @@ class JJsBirthdayCardEditor extends LitElement {
         date: "Date",
         delete: "Supprimer",
         sortDate: "Date", 
-        sortName: "Nom"
+        sortName: "Nom", 
+        hide_if_empty: "Masquer la carte s'il n'y a pas d'anniversaires à venir" 
       },
       es: {
         sortBy: "Ordenar por",
@@ -504,7 +491,8 @@ class JJsBirthdayCardEditor extends LitElement {
         date: "Fecha",
         delete: "Eliminar",
         sortDate: "Fecha", 
-        sortName: "Nombre"
+        sortName: "Nombre", 
+        hide_if_empty: "Ocultar tarjeta si no hay cumpleaños próximos"
       },
       de: {
         sortBy: "Sortieren nach",
@@ -520,7 +508,8 @@ class JJsBirthdayCardEditor extends LitElement {
         date: "Datum",
         delete: "Löschen",
         sortDate: "Datum", 
-        sortName: "Name"
+        sortName: "Name", 
+        hide_if_empty: "Karte ausblenden, wenn keine bevorstehenden Geburtstage anstehen"
       }
     };
     
@@ -558,6 +547,21 @@ class JJsBirthdayCardEditor extends LitElement {
           />
         </div>
       ` : ''}
+
+        <div class="toggle-wrapper">
+          <label>${t_editor.hide_if_empty || "Verberg kaart als leeg"}</label>
+          <label class="switch">
+            <input
+              type="checkbox"
+              .checked=${cfg.hide_if_empty === true}
+              @change=${e => {
+                this._config.hide_if_empty = e.target.checked;
+                this._fireConfigChanged();
+              }}
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
 
         <div class="row">
           <div style="flex:1">
