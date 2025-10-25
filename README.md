@@ -7,13 +7,14 @@ The visual editor makes it easy to customize the card to your liking.
 
 🎉 **Features**  
 
-✅ Both the card and the editor support English, Dutch, German, French and Spanish (automatically adjusts to the user’s language – default is English)  
+✅ Both the card and the editor support English, Dutch, German, French and Spanish (automatically adjusts to user’s language – default English)  
 ✅ Use the default header, create your own custom header, or hide the header entirely  
 ✅ Display birthdays within a configurable number of upcoming days  
 ✅ Sort by name or date  
 ✅ Choose your own highlight color for people who have their birthday today  
 ✅ Fully configurable via the Lovelace UI editor (visual editor)  
-✅ Compatible with HACS (when added manually as a custom repository)  
+✅ Compatible with HACS 
+✅ Hide card if empty (NEW)  
 
 *********************************************************************************************************
 
